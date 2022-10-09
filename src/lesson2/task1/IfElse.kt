@@ -3,7 +3,9 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
@@ -68,7 +70,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String = when {
+    age % 10 == 1 && age != 111 -> "$age год"
+    age % 10 in 2..4 && age !in 5..20 -> "$age года"
+    else -> "$age лет"
+}
 
 /**
  * Простая (2 балла)
@@ -96,7 +102,13 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int  {
+    var hazard = 0
+    if (kingX == rookX1 || kingY == rookY1) hazard = 1
+    if (kingX == rookX2 || kingY == rookY2) hazard += 2
+    return hazard
+
+}
 
 /**
  * Простая (2 балла)
@@ -112,7 +124,13 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    var hazard = 0
+    if (kingX == rookX || kingY == rookY) hazard = 1
+    if (abs(kingX - bishopX) == abs(kingY - bishopY)) hazard += 2
+    return hazard
+}
+
 
 /**
  * Простая (2 балла)
@@ -122,7 +140,19 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val min = minOf(a, b, c)
+    val max = maxOf(a, b, c)
+    val allLength = a + b + c
+    val otherSide = allLength - min - max
+    return when {
+        max == otherSide -> 0
+        max > min + otherSide -> -1
+        max.pow(2.00) > min.pow(2.00) + otherSide.pow(2.00) -> 2
+        else -> 1
+
+    }
+}
 
 /**
  * Средняя (3 балла)

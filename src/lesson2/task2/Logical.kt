@@ -3,6 +3,8 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 /**
  * Пример
@@ -18,7 +20,12 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean {
+    val firstHalf = number / 100
+    val secondHalf = number % 100
+    return firstHalf / 10 + firstHalf % 10 == secondHalf / 10 + secondHalf % 10
+}
+
 
 /**
  * Простая (2 балла)
@@ -27,7 +34,8 @@ fun isNumberHappy(number: Int): Boolean = TODO()
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+    abs(y1 - y2) == abs(x1 - x2) || y1 == y2 || x1 == x2
 
 
 /**
@@ -48,7 +56,7 @@ fun daysInMonth(month: Int, year: Int): Int = TODO()
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = TODO()
+): Boolean = sqrt(sqr(x1 - x2)) + sqrt(sqr(y1 - y2)) + r1 <= r2
 
 /**
  * Средняя (3 балла)
@@ -59,4 +67,9 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val max = maxOf(a, b, c)
+    val min = minOf(a, b, c)
+    val thirdSide = (a + b + c) - (max + min)
+    return (min <= s && thirdSide <= r) || (min <= r && thirdSide <= s)
+}
