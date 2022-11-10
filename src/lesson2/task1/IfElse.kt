@@ -140,19 +140,7 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val min = minOf(a, b, c)
-    val max = maxOf(a, b, c)
-    val allLength = a + b + c
-    val otherSide = allLength - min - max
-    return when {
-        max == otherSide -> 0
-        max > min + otherSide -> -1
-        max.pow(2.00) > min.pow(2.00) + otherSide.pow(2.00) -> 2
-        else -> 1
-
-    }
-}
+fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 
 /**
  * Средняя (3 балла)
