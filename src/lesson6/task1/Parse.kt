@@ -86,38 +86,8 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String {
-    val parts = digital.trim().split(".")
-    val year: Int
-    val month: Int
-    val day: Int
-    if (parts.size != 3) return ""
-    val months = listOf(
-        "января",
-        "февраля",
-        "марта",
-        "апреля",
-        "мая",
-        "июня",
-        "июля",
-        "августа",
-        "сентября",
-        "октября",
-        "ноября",
-        "декабря"
-    )
-    try {
-        day = parts[0].toInt()
-        month = parts[1].toInt()
-        year = parts[2].toInt()
-    } catch (e: NumberFormatException) {
-        return ""
-    }
-    if (day > daysInMonth(month, year) || day < 1) return ""
-    if (month < 1 || month > 12) return ""
-    if (year < 0) return ""
-    return "%d %s %d".format(day, months[month - 1], year)
-}
+fun dateDigitToStr(digital: String): String = TODO() 
+
 
 /**
  * Средняя (4 балла)
@@ -133,7 +103,9 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String = 
+    if (!Regex("""(\+?\s*\d[-\s*\d]*(\([-\s*\d]+\))*[-\s*\d]+?)""").matches(phone)) ""
+    else phone.filter { it !in "() -" }
 
 /**
  * Средняя (5 баллов)
