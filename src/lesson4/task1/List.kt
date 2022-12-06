@@ -179,14 +179,14 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  */
 fun factorize(n: Int): List<Int> {
     var i = 2
-    var list = mutableListOf<Int>()
-    while (i <= n) {
-        if (n % i == 0)
-            list.add(i)
-        else {
-            if (i == 2) i++
-            else i += 2
+    var x = n
+    val list = mutableListOf<Int>()
+    while (x > 1) {
+        while (x % i == 0) {
+            x /= i
+            list += i
         }
+        i += 1
     }
     return list
 }
