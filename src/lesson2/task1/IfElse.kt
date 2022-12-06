@@ -146,11 +146,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val allLength = a + b + c
     val otherSide = allLength - min - max
     return when {
-        max == otherSide -> 0
-        max > min + otherSide -> -1
-        max.pow(2.00) > min.pow(2.00) + otherSide.pow(2.00) -> 1
+        max >= otherSide + min -> -1
+        max.pow(2.0) == min.pow(2.0) + otherSide.pow(2.0) -> 1
+        max.pow(2.00) < min.pow(2.00) + otherSide.pow(2.00) -> 0
         else -> 2
-
     }
 }
 
