@@ -145,7 +145,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var x = n
+    var reverted = 0
+    while (x != 0) {
+        reverted = reverted * 10 + x % 10
+        x /= 10
+    }
+    return reverted
+}
 
 /**
  * Средняя (3 балла)
@@ -156,7 +164,7 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя (3 балла)
