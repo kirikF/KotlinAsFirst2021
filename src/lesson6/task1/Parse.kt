@@ -163,7 +163,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.isEmpty() || !jumps.contains(Regex("""[+%\-\d\s]"""))) return -1
+    val results = jumps.split(Regex(" "))
+    var max = -1
+    for (i in results.indices step 2) {
+        if (results[i + 1] == "+" && results[i].toInt() > max) max = results[i].toInt()
+    }
+    return max
+}
 
 /**
  * Сложная (6 баллов)
@@ -211,7 +219,21 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val digits = mutableMapOf('I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000)
+    return if (roman.contains(Regex("""[IVXLCDM]"""))) {
+        try {
+            var res = digits[roman[roman.length - 1]]!!
+            for (i in roman.length - 2 downTo 0) {
+                res =
+                    if (digits[roman[i + 1]]!! > digits[roman[i]]!!) res - digits[roman[i]]!! else res + digits[roman[i]]!!
+            }
+            res
+        } catch (e: NullPointerException) {
+            -1
+        }
+    } else -1
+}
 
 /**
  * Очень сложная (7 баллов)
