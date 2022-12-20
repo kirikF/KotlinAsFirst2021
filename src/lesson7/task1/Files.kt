@@ -117,13 +117,13 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     val lines = File(inputName).readLines().map { it.trim() }
-    if (lines.isNotEmpty()) {
-        val maxLength = lines.maxOf { it.length }
-        File(outputName).bufferedWriter().use {
+    val maxLength = lines.maxOf { it.length }
+    File(outputName).bufferedWriter().use { writer ->
+        if (lines.isNotEmpty()) {
             for (line in lines) {
                 val spaces = (maxLength - line.length) / 2
-                it.write("".padStart(spaces))
-                it.appendLine(line)
+                writer.write("".padStart(spaces))
+                writer.appendLine(line)
             }
         }
     }
