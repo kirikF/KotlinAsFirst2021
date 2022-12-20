@@ -128,7 +128,6 @@ fun centerFile(inputName: String, outputName: String) {
         }
     }
 }
-
 /**
  * Сложная (20 баллов)
  *
