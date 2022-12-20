@@ -333,7 +333,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val skipNumbers = mutableMapOf<Int, Int>()
     for ((index, num) in list.withIndex()) {
         val diff = number - num
-        if (diff in skipNumbers) return Pair(index, skipNumbers[diff]!!)
+        if (diff in skipNumbers) return Pair(skipNumbers[diff]!!, index)
         skipNumbers[num] = index
     }
     return Pair(-1, -1)
