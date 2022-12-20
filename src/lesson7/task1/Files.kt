@@ -63,13 +63,10 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        if (line.isNotEmpty() && line[0] == '_') continue
-        writer.write(line)
-        writer.newLine()
+    File(outputName).bufferedWriter().use {
+        val lines = File(inputName).readLines()
+        for (line in lines) if (line.isEmpty() || line[0] != '_') it.appendLine(line)
     }
-    writer.close()
 }
 
 /**
@@ -81,20 +78,7 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val text = File(inputName).readText().lowercase()
-    val result = mutableMapOf<String, Int>()
-    for (i in substrings) {
-        var t = text.indexOf(i.lowercase())
-        var counter = 0
-        while (t != -1) {
-            t = text.indexOf(i.lowercase(), t + 1)
-            counter++
-        }
-        result[i] = counter
-    }
-    return result
-}
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
 
 
 /**
@@ -133,11 +117,14 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     val lines = File(inputName).readLines().map { it.trim() }
-    val length = if (lines.isNotEmpty()) lines.maxOf { it.length } else 0
-    File(outputName).bufferedWriter().use { writer ->
-        lines.forEach { line ->
-            val indent = (length - line.length) / 2
-            writer.write(" ".repeat(indent) + line + "\n")
+    val maxLength = lines.maxOf { it.length }
+    if (lines.isNotEmpty()) {
+        File(outputName).bufferedWriter().use {
+            for (line in lines) {
+                val spaces = (maxLength - line.length) / 2
+                it.write("".padStart(spaces))
+                it.appendLine(line)
+            }
         }
     }
 }
@@ -259,7 +246,10 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val words = File(inputName).readLines().filter { it.length == it.lowercase().toSet().size }
+    val maxLength = words.maxOf { it.length }
+    val maxLetters = words.filter { it.length == maxLength }
+    File(outputName).bufferedWriter().use { it.write(maxLetters.joinToString()) }
 }
 
 /**
