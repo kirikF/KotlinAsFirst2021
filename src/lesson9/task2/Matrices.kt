@@ -104,7 +104,18 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    val transpose = transpose(matrix)
+    for (i in 0 until matrix.height) {
+        for (j in 0 until matrix.width / 2) {
+            val temp = transpose[i, j]
+            transpose[i, j] = transpose[i, matrix.width - j - 1]
+            transpose[i, matrix.width - j - 1] = temp
+        }
+    }
+    return transpose
+}
 
 /**
  * Сложная (5 баллов)
@@ -119,7 +130,22 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    for (i in 0 until matrix.height) {
+        val row = mutableSetOf<Int>()
+        val col = mutableSetOf<Int>()
+        for (j in 0 until matrix.width) {
+            row.add(matrix[i, j])
+            col.add(matrix[j, i])
+        }
+        if (!row.containsAll((1..matrix.height).toSet()))
+            return false
+        if (!col.containsAll((1..matrix.height).toSet()))
+            return false
+    }
+    return true
+}
 
 /**
  * Средняя (3 балла)
@@ -155,7 +181,23 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHoles(matrix: Matrix<Int>): Holes {
+    val rows = mutableListOf<Int>()
+    val cols = mutableListOf<Int>()
+    for (i in 0 until matrix.height) {
+        val row = mutableSetOf<Int>()
+        val col = mutableSetOf<Int>()
+        for (j in 0 until matrix.width) {
+            row.add(matrix[i, j])
+            col.add(matrix[j, i])
+        }
+        if (!row.contains(1))
+            rows.add(i)
+        if (!col.contains(1))
+            cols.add(i)
+    }
+    return Holes(rows, cols)
+}
 
 /**
  * Класс для описания местонахождения "дырок" в матрице
@@ -184,7 +226,15 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    val matrix = createMatrix(height, width, this[0, 0])
+    for (i in 0 until height) {
+        for (j in 0 until width) {
+            matrix[i, j] = -this[i, j]
+        }
+    }
+    return matrix
+}
 
 /**
  * Средняя (4 балла)
@@ -194,7 +244,19 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
+    if (height != other.width) throw IllegalArgumentException()
+    val matrix = createMatrix(height, other.width, 0)
+    for (i in 0 until height) {
+        for (j in 0 until other.width) {
+            var element = 0
+            for (k in 0 until width)
+                element += this[i, k] * other[k, j]
+            matrix[i, j] = element
+        }
+    }
+    return matrix
+}
 
 /**
  * Сложная (7 баллов)
@@ -245,7 +307,31 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+ 
+ 
+ fun <E> Matrix<E>.indexOf(element: E): Cell {
+    for (i in 0 until height) {
+        for (j in 0 until width)
+            if (this[i, j] == element)
+                return Cell(i, j)
+    }
+    return Cell(-1, -1)
+}
+ 
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    for (move in moves) {
+        if (move !in 1..15) throw IllegalStateException()
+        val holePosition = matrix.indexOf(0)
+        val movePosition = matrix.indexOf(move)
+        if (abs(movePosition.row - holePosition.row) > 1 || abs(movePosition.column - holePosition.column) > 1 ||
+            abs(movePosition.row - holePosition.row) == 1 && abs(movePosition.column - holePosition.column) == 1
+        ) throw IllegalStateException()
+        matrix[holePosition] = matrix[movePosition]
+        matrix[movePosition] = 0
+    }
+    return matrix
+}
 
 /**
  * Очень сложная (32 балла)
