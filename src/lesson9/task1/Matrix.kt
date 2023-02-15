@@ -54,7 +54,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> =
  */
 class MatrixImpl<E> : Matrix<E> {
     val data = MutableList(height * width) { e }
-    
+
     override fun get(row: Int, column: Int): E = data[row * width + column]
 
     override fun get(cell: Cell): E = get(cell.row, cell.column)
@@ -83,7 +83,7 @@ class MatrixImpl<E> : Matrix<E> {
         stringBuilder.append("]")
         return stringBuilder.toString()
     }
-    
+
     override fun hashCode(): Int {
         var result = height
         result = 31 * result + width
@@ -91,4 +91,3 @@ class MatrixImpl<E> : Matrix<E> {
         return result
     }
 }
-
