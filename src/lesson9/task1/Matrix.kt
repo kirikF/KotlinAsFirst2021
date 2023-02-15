@@ -44,8 +44,7 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = 
-    MatrixImpl(height, width, e)
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
 
 /**
  * Средняя сложность (считается двумя задачами в 3 балла каждая)
@@ -53,41 +52,23 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> =
  * Реализация интерфейса "матрица"
  */
 class MatrixImpl<E> : Matrix<E> {
-    val data = MutableList(height * width) { e }
+    override val height: Int = TODO()
 
-    override fun get(row: Int, column: Int): E = data[row * width + column]
+    override val width: Int = TODO()
 
-    override fun get(cell: Cell): E = get(cell.row, cell.column)
+    override fun get(row: Int, column: Int): E = TODO()
+
+    override fun get(cell: Cell): E = TODO()
 
     override fun set(row: Int, column: Int, value: E) {
-        data[row * width + column] = value
+        TODO()
     }
 
     override fun set(cell: Cell, value: E) {
-        set(cell.row, cell.column, value)
+        TODO()
     }
 
-    override fun equals(other: Any?) = other is MatrixImpl<*> &&
-            data == other.data
+    override fun equals(other: Any?) = TODO()
 
-    override fun toString(): String {
-        val stringBuilder = StringBuilder("[")
-        for (i in 0 until height) {
-            stringBuilder.append("[")
-            for (j in 0 until width) {
-                stringBuilder.append(get(i, j))
-                if (j != width - 1) stringBuilder.append(" ")
-            }
-            stringBuilder.appendLine("]")
-        }
-        stringBuilder.append("]")
-        return stringBuilder.toString()
-    }
-
-    override fun hashCode(): Int {
-        var result = height
-        result = 31 * result + width
-        result = 31 * result + data.hashCode()
-        return result
-    }
+    override fun toString(): String = TODO()
 }
